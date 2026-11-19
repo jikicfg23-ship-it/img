@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خزنة الصور | تشفير وإخفاء النصوص</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 خزنة الصور المشفرة</h1>
+            <p>أخفِ رسائلك السرية داخل أي صورة بكلمة مرور قوية دون أن يلاحظ أحد</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('encode')">إخفاء نص (تشفير)</button>
+            <button class="tab-btn" onclick="switchTab('decode')">استخراج نص (فك تشفير)</button>
+        </div>
+
+        <!-- قسم التشفير والإخفاء -->
+        <section id="encode-section" class="card active">
+            <div class="form-group">
+                <label for="encode-image">1. اختر صورة من جهازك:</label>
+                <input type="file" id="encode-image" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="secret-text">2. اكتب النص السري الذي تريد إخفاءه:</label>
+                <textarea id="secret-text" rows="4" placeholder="اكتب رسالتك السرية هنا..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="encode-password">3. كلمة المرور للحماية:</label>
+                <input type="password" id="encode-password" placeholder="أدخل كلمة مرور قوية...">
+            </div>
+
+            <button class="action-btn" onclick="encodeMessage()">تشفير وحفظ الصورة (PNG)</button>
+            <p id="encode-status" class="status-msg"></p>
+        </section>
+
+        <!-- قسم فك التشفير والاستخراج -->
+        <section id="decode-section" class="card">
+            <div class="form-group">
+                <label for="decode-image">1. ارفع الصورة المشفرة (بصيغة PNG):</label>
+                <input type="file" id="decode-image" accept="image/png" onchange="previewDecodeImage(event)">
+            </div>
+
+            <div class="form-group">
+                <label for="decode-password">2. أدخل كلمة المرور:</label>
+                <input type="password" id="decode-password" placeholder="أدخل كلمة المرور لفك التشفير...">
+            </div>
+
+            <button class="action-btn decode-btn" onclick="decodeMessage()">فك التشفير وعرض المحتوى</button>
+            <p id="decode-status" class="status-msg"></p>
+
+            <!-- منطقة عرض الصورة وبجانبها النص المستخرج -->
+            <div id="result-area" class="result-grid hidden">
+                <div class="image-box">
+                    <h3>الصورة المرفوعة</h3>
+                    <img id="preview-img" src="" alt="الصورة المشفرة">
+                </div>
+                <div class="text-box">
+                    <h3>النص المستخرج</h3>
+                    <textarea id="revealed-text" readonly placeholder="سيظهر النص السري هنا..."></textarea>
+                    <button class="copy-btn" onclick="copyText()">نسخ النص</button>
+                </div>
+            </div>
+        </section>
+
+        <canvas id="canvas" class="hidden"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
